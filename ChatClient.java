@@ -35,6 +35,7 @@ public class ChatClient {
                 DatagramPacket datagram = new DatagramPacket(buffer, buffer.length);
                 socket.receive(datagram);
                 String message = new String(datagram.getData());
+               
                 gui.output.append(message);
             }
         } catch (IOException e) {
@@ -43,6 +44,7 @@ public class ChatClient {
     }
 
     public void sendTextToChat(String message) {
+        String temp = message;
         message = name + ": " + message + "\n";
         byte[] buf = (message).getBytes();
         DatagramPacket packet = new DatagramPacket(buf, buf.length, group, 6789);
@@ -51,9 +53,14 @@ public class ChatClient {
         } catch (IOException ex) {
             System.out.println(ex);
         }
+        if(temp.equalsIgnoreCase("bye")){
+            disconnect();
+        }
     }
 
     public void disconnect() {
+        socket.close();
+        System.exit(0);
     }
 
     public static void main(String args[]) {
