@@ -30,7 +30,6 @@ public class ChatClient {
             socket.joinGroup(group);
             gui.output.append("Connected...\n");
             // waiting for and receiving messages
-
             while (true) {
                 byte[] buffer = new byte[1000];
                 DatagramPacket datagram = new DatagramPacket(buffer, buffer.length);
@@ -46,7 +45,7 @@ public class ChatClient {
     public void sendTextToChat(String message) {
         message = name + ": " + message + "\n";
         byte[] buf = (message).getBytes();
-        DatagramPacket packet = new DatagramPacket(buf, buf.length);
+        DatagramPacket packet = new DatagramPacket(buf, buf.length, group, 6789);
         try {
             socket.send(packet);
         } catch (IOException ex) {
